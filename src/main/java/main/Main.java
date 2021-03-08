@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    // Text Area for source/tagging and logging
     private final TextArea source = new TextArea();
     private final TextArea target = new TextArea();
     private final TextArea log = new TextArea();
@@ -21,10 +22,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage){
 
+        // Root object
         VBox root = new VBox();
         root.setPrefSize(900, 500);
 
         // Menu
+        // Init MenuBar and add all submenus with EventHandlers and Accelerators
         MenuBar mainMenu = new MenuBar();
         Menu datei = new Menu("Datei");
         Menu bearbeiten = new Menu("Bearbeiten");
@@ -44,6 +47,7 @@ public class Main extends Application {
         mainMenu.getMenus().addAll(datei, bearbeiten);
 
         // Toolbar
+        // Init ToolBar and add all Buttons with EventHandlers and Accelerators
         ToolBar toolBar = new ToolBar();
         Button schliessenTool = new Button("Schliessen");
         schliessenTool.setOnMouseClicked(event -> Platform.exit());
@@ -65,11 +69,13 @@ public class Main extends Application {
         sourceTarget.setClosable(false);
         logging.setClosable(false);
 
+        // Sets sizes for source
         source.setPrefSize(300, 300);
         source.setMaxSize(300, 300);
         source.setLayoutX(100);
         source.setLayoutY(50);
 
+        // EventHandler for DragAndDrop
         source.setOnDragDetected(event -> {
             Dragboard db = source.startDragAndDrop
                     (TransferMode.ANY);
@@ -79,6 +85,7 @@ public class Main extends Application {
             event.consume();
         });
 
+        // ContextMenu for source
         ContextMenu sourceMenu = new ContextMenu();
         MenuItem sourceAusschneiden = new MenuItem("Ausschneiden");
         sourceAusschneiden.setOnAction(event -> handleAusschneiden());
@@ -87,11 +94,13 @@ public class Main extends Application {
         sourceMenu.getItems().addAll(sourceAusschneiden, sourceKopieren);
         source.setContextMenu(sourceMenu);
 
+        // Sets sizes for target
         target.setPrefSize(300, 300);
         target.setMaxSize(300, 300);
         target.setLayoutX(500);
         target.setLayoutY(50);
 
+        // EventHandler for DragAndDrop
         target.setOnDragOver(event -> {
             if (event.getGestureSource() != target && event.getDragboard().hasString()) {
                 event.acceptTransferModes(TransferMode.ANY);
@@ -100,17 +109,20 @@ public class Main extends Application {
             event.consume();
         });
 
+        // ContextMenu for target
         ContextMenu targetMenu = new ContextMenu();
         MenuItem targetEinfuegen = new MenuItem("Einfuegen");
         targetEinfuegen.setOnAction(event -> handleEinfuegen());
         targetMenu.getItems().addAll(targetEinfuegen);
         target.setContextMenu(targetMenu);
 
+        // Sets sizes for log
         log.setPrefSize(600, 300);
         log.setMaxSize(600, 300);
         log.setLayoutX(150);
         log.setLayoutY(50);
 
+        // Ads source/target pane and logging pane to right targets/tabs
         Pane paneSourceTarget = new Pane(source, target);
         Pane paneLogging = new Pane(log);
         sourceTarget.setContent(paneSourceTarget);
@@ -140,11 +152,13 @@ public class Main extends Application {
 
     }
 
+    // Handles all cut actions
     public void handleAusschneiden(){
         log.appendText("Cut text from Source Area." + System.lineSeparator());
         source.setText("");
     }
 
+    // Handles all copy actions
     public void handleKopieren(){
         log.appendText("Copied '" + source.getSelectedText() + "' from Source." + System.lineSeparator());
         ClipboardContent content = new ClipboardContent();
@@ -152,11 +166,13 @@ public class Main extends Application {
         Clipboard.getSystemClipboard().setContent(content);
     }
 
+    // Handles all paste actions
     public void handleEinfuegen(){
         log.appendText("Pasted '" + Clipboard.getSystemClipboard().getString() + "' from Source to Target." + System.lineSeparator());
         target.setText(Clipboard.getSystemClipboard().getString());
     }
 
+    // Handles printing actions
     private void print() {
         log.appendText("Creating a printer job..." + System.lineSeparator());
         PrinterJob job = PrinterJob.createPrinterJob();
