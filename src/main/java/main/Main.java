@@ -40,7 +40,7 @@ public class Main extends Application {
         toolBar.setOrientation(Orientation.VERTICAL);
         VBox vBox = new VBox(toolBar);
 
-        root.setTop(mainMenu);
+        //root.setTop(mainMenu);
         root.getChildren().add(vBox);
 
         Scene scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight());
