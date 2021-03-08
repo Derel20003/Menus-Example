@@ -2,9 +2,7 @@ package main;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.ObservableSet;
 import javafx.geometry.Orientation;
-import javafx.print.Printer;
 import javafx.print.PrinterJob;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -30,7 +28,7 @@ public class Main extends Application {
         MenuBar mainMenu = new MenuBar();
         Menu datei = new Menu("Datei");
         Menu bearbeiten = new Menu("Bearbeiten");
-        MenuItem schliessen = new MenuItem("Schließen");
+        MenuItem schliessen = new MenuItem("Schliessen");
         schliessen.setOnAction(event -> Platform.exit());
         MenuItem drucken = new MenuItem("Drucken");
         drucken.setAccelerator(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN));
@@ -39,7 +37,7 @@ public class Main extends Application {
         ausschneiden.setAccelerator(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN));
         MenuItem kopieren = new MenuItem("Kopieren");
         kopieren.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN));
-        MenuItem einfuegen = new MenuItem("Einfügen");
+        MenuItem einfuegen = new MenuItem("Einfuegen");
         einfuegen.setAccelerator(new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN));
         datei.getItems().addAll(schliessen, drucken);
         bearbeiten.getItems().addAll(ausschneiden, kopieren, einfuegen);
@@ -47,13 +45,13 @@ public class Main extends Application {
 
         // Toolbar
         ToolBar toolBar = new ToolBar();
-        Button schliessenTool = new Button("Schließen");
+        Button schliessenTool = new Button("Schliessen");
         schliessenTool.setOnMouseClicked(event -> Platform.exit());
         Button druckenTool = new Button("Drucken");
         druckenTool.setOnMouseClicked(event -> print());
         Button ausschneidenTool = new Button("Ausschneiden");
         Button kopierenTool = new Button("Kopieren");
-        Button einfuegenTool = new Button("Einfügen");
+        Button einfuegenTool = new Button("Einfuegen");
         toolBar.getItems().addAll(schliessenTool, druckenTool, new Separator(), ausschneidenTool, kopierenTool, einfuegenTool);
         toolBar.setOrientation(Orientation.HORIZONTAL);
         HBox toolBox = new HBox(toolBar);
@@ -103,7 +101,7 @@ public class Main extends Application {
         });
 
         ContextMenu targetMenu = new ContextMenu();
-        MenuItem targetEinfuegen = new MenuItem("Einfügen");
+        MenuItem targetEinfuegen = new MenuItem("Einfuegen");
         targetEinfuegen.setOnAction(event -> handleEinfuegen());
         targetMenu.getItems().addAll(targetEinfuegen);
         target.setContextMenu(targetMenu);
@@ -165,6 +163,7 @@ public class Main extends Application {
 
         if (job != null) {
             if (job.printPage(source)) {
+                log.appendText("Successfully printed text to PDF.");
                 job.endJob();
             } else {
                 log.appendText("Printing failed." + System.lineSeparator());
